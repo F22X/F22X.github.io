@@ -206,125 +206,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/03/23/siwft思维第二部分_array的map方法/" itemprop="url">
-                  siwft思维 第二部分：array的map方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T23:13:17+08:00" content="2016-03-23">
-              2016-03-23
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://alisoftware.github.io/swift/2015/09/20/thinking-in-swift-2/" target="_blank" rel="external">翻译自</a> 今天这篇文章主要讲解map和flatmap在Arrays中的应用</p>
-<h3 id="以前的代码"><a href="#以前的代码" class="headerlink" title="以前的代码"></a>以前的代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">class ListItem &#123;</span><br><span class="line">    var icon: UIImage?</span><br><span class="line">    var title: String = &quot;&quot;</span><br><span class="line">    var url: NSURL!</span><br><span class="line"></span><br><span class="line">    static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">    guard let nonNilJsonData = jsonData,</span><br><span class="line">    let    class ListItem &#123;</span><br><span class="line">    var icon: UIImage?</span><br><span class="line">    var title: String = &quot;&quot;</span><br><span class="line">    var url: NSURL!</span><br><span class="line"></span><br><span class="line">    static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">    guard let nonNilJsonData = jsonData,</span><br><span class="line">    let json = try? NSJSONSerialization.JSONObjectWithData(nonNilJsonData, options: []),</span><br><span class="line">    let jsonItems = json as? Array&lt;NSDictionary&gt;</span><br><span class="line">    else &#123;</span><br><span class="line">    // If we failed to unserialize the JSON or that JSON wasn&apos;t an NSArray,</span><br><span class="line">    // then bail early with an empty array</span><br><span class="line">    return []</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var items = [ListItem]()</span><br><span class="line">    for itemDesc in jsonItems &#123;</span><br><span class="line">    let item = ListItem()</span><br><span class="line">    if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">    item.icon = UIImage(named: icon)</span><br><span class="line">    &#125;</span><br><span class="line">    if let title = itemDesc[&quot;title&quot;] as? String &#123;</span><br><span class="line">    item.title = title</span><br><span class="line">    &#125;</span><br><span class="line">    if let urlString = itemDesc[&quot;url&quot;] as? String, let url = NSURL(string: urlString) &#123;</span><br><span class="line">    item.url = url</span><br><span class="line">    &#125;</span><br><span class="line">    items.append(item)</span><br><span class="line">    &#125;</span><br><span class="line">    return items</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="map-介绍"><a href="#map-介绍" class="headerlink" title="map()介绍"></a>map()介绍</h3><p>map()是Array中的一个方法，它包含一个函数来作为参数，这就解释了怎么样把数组的每个元素转换成新的。这个方法仅通过解释如何转换X-&gt;Y来允许转换一个数组[x]为[Y]，而不需要创建一个临时的可变数组。（关于这一段，需要了解函数式编程的相关内容，简单来说，函数作为处理”值”而存在，我们输入一个值，会得到另一个值。而数据类型作为对值的封装，不仅包含值，还包含相关的属性和方法。这里把array这个数据类型而不是值通过map()函数进行处理，我们通过这个过程，拿到中间状态NSDictionary来自己”组装”函数，最后，函数将帮我们返回另一种数据类型ListItem。详情见<a href="http://www.ruanyifeng.com/blog/2015/07/monad.html" target="_blank" rel="external">这篇博文</a>以及<a href="http://jiyinyiyong.github.io/monads-in-pictures/" target="_blank" rel="external">原文</a>）</p>
-<p>因此，在我们的例子中，我们利用这个特性代替for循环，我们可以使用jsonItems（包含几组NSDictionary的JSON数组）的map方法–将每个字典替换成ListItem实例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return jsonItems.map &#123; (itemDesc: NSDictionary) -&gt; ListItem in</span><br><span class="line">    let item = ListItem()</span><br><span class="line">    if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">    item.icon = UIImage(named: icon)</span><br><span class="line">    &#125;</span><br><span class="line">    if let title = itemDesc[&quot;title&quot;] as? String &#123;</span><br><span class="line">    item.title = title</span><br><span class="line">    &#125;</span><br><span class="line">    if let urlString = itemDesc[&quot;url&quot;] as? String, let url = NSURL(string: urlString) &#123;</span><br><span class="line">    item.url = url</span><br><span class="line">    &#125;</span><br><span class="line">    return item</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>这可能看起来像一个简单的变化，但它使我们能够专注于“如何将一个NSDictionary转化成ListItem”的问题 - 这是我们的问题的核心，并且 - 更重要的是避免了需要建立一个中间可变数组（像我们在ObjC做的那样）。如果可能的话，我们要始终避免可变（mutable）状态。 </p>
-<h3 id="数据损坏"><a href="#数据损坏" class="headerlink" title="数据损坏"></a>数据损坏</h3><p>另一个需要解决的问题是，目前我们所使用的代码仍然会创建一个ListItem（并将它包含在最后的数组中）即使我们输入了不正确的数据。因此，如果其中的一些NSDictionary是无效的，我们的数组最终还会包含一些空的ListItem()对象，实际上它们在真正的意义上是不存在的。 </p>
-<p>更重要的是，我们仍然 killing some ponies 🐴 因为我们还在使用NSURL!并且我们的代码还是允许我们创建一个没有NSURL的ListItem（item.url不会受到影响，如果我们没有一个有效的“URL”键），如果我们试图访问这些无效的NSURL! 我们的代码将崩溃。</p>
-<p>为了解决这个问题，我们可以返回一个nil的ListItem，如果输入的参数是无效的。这比一个会引起错误的或者空的ListItem更合适。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return jsonItems.map &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">        guard …/* condition for valid data */… else &#123; return nil &#125;</span><br><span class="line">        let realValidItem = ListItem()</span><br><span class="line">… /* fill the ListItem with the values */</span><br><span class="line">    return realValidItem</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>但是，如果我们要使用新的NSDictionary - &gt;ListItem？与jsonItems.map变换，它会产生一个[ListItem？]，其中可能包含包含nil，我们仍然输入了无效的NSDictionary项。虽然这样做比以前好，但仍然不是非常实用的处理方法。</p>
-<h3 id="使用flatMap"><a href="#使用flatMap" class="headerlink" title="使用flatMap()"></a>使用flatMap()</h3><p>该flatMap（）派上用场了。</p>
-<p>flatMap（）类似map()，但它采用的是T-&gt; U?转换，而不是T-&gt; U，如果该转换的返回值是nil，那么不加此项到输出数组。</p>
-<p>语义上，flatMap和map很像，就像map消除nil值的扁平化结果。</p>
-<p>运用这一原理，我们给出了下面的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return jsonItems.flatMap &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">    guard let title = itemDesc[&quot;title&quot;] as? String,</span><br><span class="line">        let urlString = itemDesc[&quot;url&quot;] as? String,</span><br><span class="line">        let url = NSURL(string: urlString)</span><br><span class="line">    else &#123; return nil &#125;</span><br><span class="line">        let li = ListItem()</span><br><span class="line">    if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">        li.icon = UIImage(named: icon)</span><br><span class="line">    &#125;</span><br><span class="line">        li.title = title</span><br><span class="line">        li.url = url</span><br><span class="line">        return li</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>现在我们只返回一个真正的ListItem如果所有的键是我们所需要的和有效的（包括NSURL，我们保证它不是空的）。否则（使用guard声明），我们将返回nil，告诉flatMap不要添加无效的元素到返回的数组。 </p>
-<p>这是更好的而且更安全的，对吗？我们消除了数据损坏和错误数据带来的风险，以及无效的ListItem元素带来的风险。</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>我们仍然有很多工作要做，但是今天，这将是所有（让我们保留一些东西到本系列的下一篇文章！）</p>
-<p>因此，在这一篇里，我们学会了如何更换一个for循环到map或flatMap，我们要使我们的代码保证一点，避免不一致的输出信号的产生当我们的输入数据是无效的。这是一个相当不错的改进了。</p>
-<p>在下篇文章中，我们将看到如何将ListItem转化为struct，并且探索map和flatMap的其他用途 - 尤其是Optionals。</p>
-<p>在此期间，我们需要时间来探索map()和flatMap()的效率。我知道他们在第一次使用时是可怕的或复杂的，但一旦你掌握它，你将会想在任何地方使用它们！</p>
-<!-- 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html">Deployment</a> –&gt;</p>
--->
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/03/22/hello-world/" itemprop="url">
                   Hello World
                 </a>
@@ -401,6 +282,144 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/09/28/siwft思维第二部分_array的map方法/" itemprop="url">
+                  siwft思维 第二部分：array的map方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-28T12:39:04+08:00" content="2015-09-28">
+              2015-09-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Testing/" itemprop="url" rel="index">
+                    <span itemprop="name">Testing</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://alisoftware.github.io/swift/2015/09/20/thinking-in-swift-2/" target="_blank" rel="external">翻译自</a> 今天这篇文章主要讲解map和flatmap在Arrays中的应用</p>
+<h3 id="以前的代码"><a href="#以前的代码" class="headerlink" title="以前的代码"></a>以前的代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class ListItem &#123;</span><br><span class="line">    var icon: UIImage?</span><br><span class="line">    var title: String = &quot;&quot;</span><br><span class="line">    var url: NSURL!</span><br><span class="line">                 </span><br><span class="line">    static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">        guard let nonNilJsonData = jsonData,</span><br><span class="line">        let class ListItem &#123;</span><br><span class="line">            var icon: UIImage?</span><br><span class="line">            var title: String = &quot;&quot;</span><br><span class="line">            var url: NSURL!</span><br><span class="line">            </span><br><span class="line">            static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">                guard let nonNilJsonData = jsonData,</span><br><span class="line">                let json = try? NSJSONSerialization.JSONObjectWithData(nonNilJsonData, options: []),</span><br><span class="line">                let jsonItems = json as? Array&lt;NSDictionary&gt;</span><br><span class="line">                else &#123;</span><br><span class="line">                    // If we failed to unserialize the JSON or that JSON wasn&apos;t an NSArray,</span><br><span class="line">                    // then bail early with an empty array</span><br><span class="line">                    return []</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                var items = [ListItem]()</span><br><span class="line">                for itemDesc in jsonItems &#123;</span><br><span class="line">                    let item = ListItem()</span><br><span class="line">                    if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">                        item.icon = UIImage(named: icon)</span><br><span class="line">                    &#125;</span><br><span class="line">                    if let title = itemDesc[&quot;title&quot;] as? String &#123;</span><br><span class="line">                        item.title = title</span><br><span class="line">                    &#125;</span><br><span class="line">                    if let urlString = itemDesc[&quot;url&quot;] as? String, let url = NSURL(string: urlString) &#123;</span><br><span class="line">                        item.url = url</span><br><span class="line">                    &#125;</span><br><span class="line">                    items.append(item)</span><br><span class="line">                &#125;</span><br><span class="line">                return items</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="map-介绍"><a href="#map-介绍" class="headerlink" title="map()介绍"></a>map()介绍</h3><p>map()是Array中的一个方法，它包含一个函数来作为参数，这就解释了怎么样把数组的每个元素转换成新的。这个方法仅通过解释如何转换X-&gt;Y来允许转换一个数组[x]为[Y]，而不需要创建一个临时的可变数组。（关于这一段，需要了解函数式编程的相关内容，简单来说，函数作为处理”值”而存在，我们输入一个值，会得到另一个值。而数据类型作为对值的封装，不仅包含值，还包含相关的属性和方法。这里把array这个数据类型而不是值通过map()函数进行处理，我们通过这个过程，拿到中间状态NSDictionary来自己”组装”函数，最后，函数将帮我们返回另一种数据类型ListItem。详情见<a href="http://www.ruanyifeng.com/blog/2015/07/monad.html" target="_blank" rel="external">这篇博文</a>以及<a href="http://jiyinyiyong.github.io/monads-in-pictures/" target="_blank" rel="external">原文</a>）</p>
+<p>因此，在我们的例子中，我们利用这个特性代替for循环，我们可以使用jsonItems（包含几组NSDictionary的JSON数组）的map方法–将每个字典替换成ListItem实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return jsonItems.map &#123;(itemDesc: NSDictionary) -&gt; ListItem in</span><br><span class="line">        let item = ListItem()</span><br><span class="line">        if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">            item.icon = UIImage(named: icon)</span><br><span class="line">        &#125;</span><br><span class="line">        if let title = itemDesc[&quot;title&quot;] as? String &#123;</span><br><span class="line">            item.title = title</span><br><span class="line">        &#125;</span><br><span class="line">        if let urlString = itemDesc[&quot;url&quot;] as? String, let url = NSURL(string: urlString) &#123;</span><br><span class="line">            item.url = url</span><br><span class="line">        &#125;</span><br><span class="line">        return item</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这可能看起来像一个简单的变化，但它使我们能够专注于“如何将一个NSDictionary转化成ListItem”的问题 - 这是我们的问题的核心，并且 - 更重要的是避免了需要建立一个中间可变数组（像我们在ObjC做的那样）。如果可能的话，我们要始终避免可变（mutable）状态。 </p>
+<h3 id="数据损坏"><a href="#数据损坏" class="headerlink" title="数据损坏"></a>数据损坏</h3><p>另一个需要解决的问题是，目前我们所使用的代码仍然会创建一个ListItem（并将它包含在最后的数组中）即使我们输入了不正确的数据。因此，如果其中的一些NSDictionary是无效的，我们的数组最终还会包含一些空的ListItem()对象，实际上它们在真正的意义上是不存在的。 </p>
+<p>更重要的是，我们仍然 killing some ponies 🐴 因为我们还在使用NSURL!并且我们的代码还是允许我们创建一个没有NSURL的ListItem（item.url不会受到影响，如果我们没有一个有效的“URL”键），如果我们试图访问这些无效的NSURL! 我们的代码将崩溃。</p>
+<p>为了解决这个问题，我们可以返回一个nil的ListItem，如果输入的参数是无效的。这比一个会引起错误的或者空的ListItem更合适。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return jsonItems.map &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">        guard …/* condition for valid data */… else &#123; return nil &#125;</span><br><span class="line">        let realValidItem = ListItem()</span><br><span class="line">… /* fill the ListItem with the values */</span><br><span class="line">    return realValidItem</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>但是，如果我们要使用新的NSDictionary - &gt;ListItem？与jsonItems.map变换，它会产生一个[ListItem？]，其中可能包含包含nil，我们仍然输入了无效的NSDictionary项。虽然这样做比以前好，但仍然不是非常实用的处理方法。</p>
+<h3 id="使用flatMap"><a href="#使用flatMap" class="headerlink" title="使用flatMap()"></a>使用flatMap()</h3><p>该flatMap（）派上用场了。</p>
+<p>flatMap（）类似map()，但它采用的是T-&gt; U?转换，而不是T-&gt; U，如果该转换的返回值是nil，那么不加此项到输出数组。</p>
+<p>语义上，flatMap和map很像，就像map消除nil值的扁平化结果。</p>
+<p>运用这一原理，我们给出了下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return jsonItems.flatMap &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">    guard let title = itemDesc[&quot;title&quot;] as? String,</span><br><span class="line">        let urlString = itemDesc[&quot;url&quot;] as? String,</span><br><span class="line">        let url = NSURL(string: urlString)</span><br><span class="line">    else &#123; return nil &#125;</span><br><span class="line">        let li = ListItem()</span><br><span class="line">    if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">        li.icon = UIImage(named: icon)</span><br><span class="line">    &#125;</span><br><span class="line">        li.title = title</span><br><span class="line">        li.url = url</span><br><span class="line">        return li</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>现在我们只返回一个真正的ListItem如果所有的键是我们所需要的和有效的（包括NSURL，我们保证它不是空的）。否则（使用guard声明），我们将返回nil，告诉flatMap不要添加无效的元素到返回的数组。 </p>
+<p>这是更好的而且更安全的，对吗？我们消除了数据损坏和错误数据带来的风险，以及无效的ListItem元素带来的风险。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>我们仍然有很多工作要做，但是今天，这将是所有（让我们保留一些东西到本系列的下一篇文章！）</p>
+<p>因此，在这一篇里，我们学会了如何更换一个for循环到map或flatMap，我们要使我们的代码保证一点，避免不一致的输出信号的产生当我们的输入数据是无效的。这是一个相当不错的改进了。</p>
+<p>在下篇文章中，我们将看到如何将ListItem转化为struct，并且探索map和flatMap的其他用途 - 尤其是Optionals。</p>
+<p>在此期间，我们需要时间来探索map()和flatMap()的效率。我知道他们在第一次使用时是可怕的或复杂的，但一旦你掌握它，你将会想在任何地方使用它们！</p>
+<!-- 
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html">Deployment</a> –&gt;</p>
+-->
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -448,6 +467,13 @@
           </div>
 
           
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
 
           
 
@@ -456,6 +482,24 @@
         
 
         <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/f22x" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/f22xC" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> twitter
+                  
+                </a>
+              </span>
+            
           
         </div>
 
