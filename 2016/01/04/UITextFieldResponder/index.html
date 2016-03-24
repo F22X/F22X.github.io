@@ -57,19 +57,24 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="UITextField是我们常用的控件，它是如何响应用户事件的呢，看了一下它的视图层次如下：
+
+这是一个简单的textField，当点击它的时候，生成了UIFieldEditor(如果没有设置clearButton的话它的frame等于textField)，UIFieldEditor上有一个_UIFieldEditorContentView, _UIFieldEditorContentView负责">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2016/03/22/hello-world/index.html">
+<meta property="og:title" content="textField响应">
+<meta property="og:url" content="http://yoursite.com/2016/01/04/UITextFieldResponder/index.html">
 <meta property="og:site_name" content="f22x">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-03-22T05:54:21.000Z">
+<meta property="og:description" content="UITextField是我们常用的控件，它是如何响应用户事件的呢，看了一下它的视图层次如下：
+
+这是一个简单的textField，当点击它的时候，生成了UIFieldEditor(如果没有设置clearButton的话它的frame等于textField)，UIFieldEditor上有一个_UIFieldEditorContentView, _UIFieldEditorContentView负责">
+<meta property="og:image" content="https://raw.githubusercontent.com/f22x/f22x.github.io/master/image/UITextFieldResponder.png">
+<meta property="og:updated_time" content="2016-03-24T13:13:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="textField响应">
+<meta name="twitter:description" content="UITextField是我们常用的控件，它是如何响应用户事件的呢，看了一下它的视图层次如下：
+
+这是一个简单的textField，当点击它的时候，生成了UIFieldEditor(如果没有设置clearButton的话它的frame等于textField)，UIFieldEditor上有一个_UIFieldEditorContentView, _UIFieldEditorContentView负责">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/f22x/f22x.github.io/master/image/UITextFieldResponder.png">
 
 
 
@@ -87,7 +92,7 @@ Quick">
   };
 </script>
 
-  <title> Hello World | f22x </title>
+  <title> textField响应 | f22x </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -186,7 +191,7 @@ Quick">
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
 
     
       <header class="post-header">
@@ -197,7 +202,7 @@ Quick">
             
             
               
-                Hello World
+                textField响应
               
             
           </h1>
@@ -209,11 +214,30 @@ Quick">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-22T13:54:21+08:00" content="2016-03-22">
-              2016-03-22
+            <time itemprop="dateCreated" datetime="2016-01-04T16:53:17+08:00" content="2016-01-04">
+              2016-01-04
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/objective-c/" itemprop="url" rel="index">
+                    <span itemprop="name">objective-c</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -236,15 +260,9 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p><code>UITextField</code>是我们常用的控件，它是如何响应用户事件的呢，看了一下它的视图层次如下：</p>
+<p><img src="https://raw.githubusercontent.com/f22x/f22x.github.io/master/image/UITextFieldResponder.png" alt="desk"><br><!--<center>![UITextFieldResponder](/images/UITextFieldResponder.png)</center>--></p>
+<p>这是一个简单的textField，当点击它的时候，生成了<code>UIFieldEditor</code>(如果没有设置clearButton的话它的frame等于textField)，<br><code>UIFieldEditor</code>上有一个<code>_UIFieldEditorContentView</code>, <code>_UIFieldEditorContentView</code>负责展示文字并包含一个<code>UITextSelectionView</code>（光标）。这些由textField生成的编辑系列视图以textField为父视图并总是处于父视图的最顶层，如果直接在textField上添加控件的话，这些控件将不能够被系统响应。</p>
 
       
     </div>
@@ -262,8 +280,8 @@ Quick">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/28/siwft思维第二部分_array的map方法/" rel="next" title="swift思维 第二部分：array的map方法">
-                <i class="fa fa-chevron-left"></i> swift思维 第二部分：array的map方法
+              <a href="/2015/10/26/BFTask/" rel="next" title="Facebook的BFTask简介">
+                <i class="fa fa-chevron-left"></i> Facebook的BFTask简介
               </a>
             
           </div>
@@ -336,7 +354,7 @@ Quick">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">5</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -344,7 +362,7 @@ Quick">
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -398,7 +416,7 @@ Quick">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

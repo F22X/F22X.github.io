@@ -1,0 +1,707 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="这次让我们使用struct来简化我们的代码在本系列的上一篇文章中，我们学习了如何使用array的map和flatMap方法，从而避免出现有状态的中间变量，并且使用一些函数式编程。翻译自
+123456789101112131415161718192021222324252627282930class ListItem &amp;#123;    var icon: UIImage?    var title">
+<meta property="og:type" content="article">
+<meta property="og:title" content="siwft思维 第三部分：struct">
+<meta property="og:url" content="http://yoursite.com/2015/10/12/siwft思维第三部分_struct/index.html">
+<meta property="og:site_name" content="f22x">
+<meta property="og:description" content="这次让我们使用struct来简化我们的代码在本系列的上一篇文章中，我们学习了如何使用array的map和flatMap方法，从而避免出现有状态的中间变量，并且使用一些函数式编程。翻译自
+123456789101112131415161718192021222324252627282930class ListItem &amp;#123;    var icon: UIImage?    var title">
+<meta property="og:updated_time" content="2016-03-24T12:26:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="siwft思维 第三部分：struct">
+<meta name="twitter:description" content="这次让我们使用struct来简化我们的代码在本系列的上一篇文章中，我们学习了如何使用array的map和flatMap方法，从而避免出现有状态的中间变量，并且使用一些函数式编程。翻译自
+123456789101112131415161718192021222324252627282930class ListItem &amp;#123;    var icon: UIImage?    var title">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> siwft思维 第三部分：struct | f22x </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">f22x</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                siwft思维 第三部分：struct
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-10-12T17:30:19+08:00" content="2015-10-12">
+              2015-10-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/swift/" itemprop="url" rel="index">
+                    <span itemprop="name">swift</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="这次让我们使用struct来简化我们的代码"><a href="#这次让我们使用struct来简化我们的代码" class="headerlink" title="这次让我们使用struct来简化我们的代码"></a>这次让我们使用struct来简化我们的代码</h3><p>在本系列的上一篇文章中，我们学习了如何使用array的map和flatMap方法，从而避免出现有状态的中间变量，并且使用一些函数式编程。<br><a href="http://alisoftware.github.io/swift/2015/09/20/thinking-in-swift-2/" target="_blank" rel="external">翻译自</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class ListItem &#123;</span><br><span class="line">    var icon: UIImage?</span><br><span class="line">    var title: String = &quot;&quot;</span><br><span class="line">    var url: NSURL!</span><br><span class="line">    </span><br><span class="line">    static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">        guard let nonNilJsonData = jsonData,</span><br><span class="line">        let json = try? NSJSONSerialization.JSONObjectWithData(nonNilJsonData, options: []),</span><br><span class="line">        let jsonItems = json as? Array&lt;NSDictionary&gt;</span><br><span class="line">        else &#123;</span><br><span class="line">            return []</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return jsonItems.flatMap &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">            guard let title = itemDesc[&quot;title&quot;] as? String,</span><br><span class="line">            let urlString = itemDesc[&quot;url&quot;] as? String,</span><br><span class="line">            let url = NSURL(string: urlString)</span><br><span class="line">            else &#123; return nil &#125;</span><br><span class="line">            let li = ListItem()</span><br><span class="line">            if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">                li.icon = UIImage(named: icon)</span><br><span class="line">            &#125;</span><br><span class="line">            li.title = title</span><br><span class="line">            li.url = url</span><br><span class="line">            return li</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>今天，我们要做一个非常简单的变化，它会使我们的代码更轻量，看起来更像swifteer。</p>
+<h3 id="struct-vs-class"><a href="#struct-vs-class" class="headerlink" title="struct vs class"></a>struct vs class</h3><p>我们刚刚使用swift的时候通常使用class，这不难理解，因为在oc中class无处不在。使用class并没有什么错误，你当然可以在swift中继续使用它们。但是在swift中，struct拥有更强大的功能相对于c语言来说。它们不再局<br>限于一些拥有值的字段。</p>
+<p>相对的，swift的struct拥有class相同的能力，除了继承，它还拥有值类型（所以当你使用其他的变量时，都会复制它们，就像Int）而class是引用类型，通过引用用而不是复制，在objective-c中（它们遍布了每个地方）下一个是转贴，请参见watch this excellent talk from Andy Matuschak on that subject关于两者的解释。</p>
+<h3 id="转换我们的class为struct"><a href="#转换我们的class为struct" class="headerlink" title="转换我们的class为struct"></a>转换我们的class为struct</h3><p>在这种情况下，struct似乎更适合，因为它承载值，并且不会被某些意外所改变（复制胜于引用）。假如我们要使用它们作为数据源例如一个菜单，并且它们并非旨在一定要创建中间量，所以这种情况是有意义的。</p>
+<p>此外，struct的优势在于他们有一个隐含的构造函数在默认的情况下，如果你不定义：我们可以使用它的默认构造函数列表项ListItem（icon:…,titile:…,url:…）。</p>
+<p>最后但是并非最不重要的，因为我们现在还不能创建一个伪造的列表项，因为我们消除了上面的数据损坏的问题，我们可以消除tittle的默认值，但更重要的是，我们可以save that last pony ??通过将NSURL！转换为NSURL。</p>
+<p>所以接下来的代码像这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">struct ListItem &#123;</span><br><span class="line">var icon: UIImage?</span><br><span class="line">var title: String</span><br><span class="line">var url: NSURL</span><br><span class="line"></span><br><span class="line">static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">    guard let nonNilJsonData = jsonData,</span><br><span class="line">    let json = try? NSJSONSerialization.JSONObjectWithData(nonNilJsonData, options: []),</span><br><span class="line">    let jsonItems = json as? Array&lt;NSDictionary&gt; else &#123; return [] &#125;</span><br><span class="line">    </span><br><span class="line">    return jsonItems.flatMap &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">        guard let title = itemDesc[&quot;title&quot;] as? String,</span><br><span class="line">        let urlString = itemDesc[&quot;url&quot;] as? String,</span><br><span class="line">        let url = NSURL(string: urlString)</span><br><span class="line">        else &#123; return nil &#125;</span><br><span class="line">        let iconName = itemDesc[&quot;icon&quot;] as? String</span><br><span class="line">        let icon = UIImage(named: iconName ?? &quot;&quot;)</span><br><span class="line">        return ListItem(icon: icon, title: title, url: url)</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>现在，我们使用一步来创建ListItem，因为struct为一个默认的init（）内包含所有的参数，如果你不提供任何自己的初始化参数。我们可用class做相同的事，但是一旦有class我们就不得不初始化自己。</p>
+<h3 id="合并运算符"><a href="#合并运算符" class="headerlink" title="合并运算符"></a>合并运算符</h3><p>在上面的例子中，我还使用了新的技巧，使用？操作符得到一个默认情况下iconName为nil的情况。</p>
+<p>这里的？？操作符类似于Objective-c的opt？：val号运算符，这意味着，如果opt是类型T的？VAL必须是T型的。</p>
+<p>所以在这里iconName？？””让我们用一个nil的情况下的iconName的映射，我们知道会导致nil的UIImage（icon=nil）的这种情况。</p>
+<p>⚠️注意⚠️：这不是处理一个空的iconName或者有一个nil的UIImage最好的和干净的方式。事实上，它甚至显得有点丑陋，以及使用一个假的“”符号创建一个空的图像。但是，这是一个机会，向您展示？？的用法……哎，我们也保留了一些不错的东西，作为本作的下一部分。</p>
+<p>有问题请<a href="https://github.com/f22x/f22x.github.io/issues" target="_blank" rel="external">回复</a>至</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/28/siwft思维第二部分_array的map方法/" rel="next" title="swift思维 第二部分：array的map方法">
+                <i class="fa fa-chevron-left"></i> swift思维 第二部分：array的map方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/16/siwft思维第四部分_mapallthethings/" rel="prev" title="siwft思维 第四部分：map all the things!">
+                siwft思维 第四部分：map all the things! <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="f22x" />
+          <p class="site-author-name" itemprop="name">f22x</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/f22x" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/f22xC" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#这次让我们使用struct来简化我们的代码"><span class="nav-number">1.</span> <span class="nav-text">这次让我们使用struct来简化我们的代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#struct-vs-class"><span class="nav-number">2.</span> <span class="nav-text">struct vs class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转换我们的class为struct"><span class="nav-number">3.</span> <span class="nav-text">转换我们的class为struct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合并运算符"><span class="nav-number">4.</span> <span class="nav-text">合并运算符</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">f22x</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

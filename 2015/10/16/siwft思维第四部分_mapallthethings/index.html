@@ -1,0 +1,745 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="原文地址
+Array vs. Optional所以，作为一个提醒，我们在前面的文章中了解到，Array的函数map()和flatmap：
+
+map( transform: T -&amp;gt; U  ) -&amp;gt; ArrayflatMap( transform: T -&amp;gt; Array ) -&amp;gt; Array
+
+这意味着，给定一个变换：T-&amp;gt; U的用户可将T的数组转换为U的数组，只需使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="siwft思维 第四部分：map all the things!">
+<meta property="og:url" content="http://yoursite.com/2015/10/16/siwft思维第四部分_mapallthethings/index.html">
+<meta property="og:site_name" content="f22x">
+<meta property="og:description" content="原文地址
+Array vs. Optional所以，作为一个提醒，我们在前面的文章中了解到，Array的函数map()和flatmap：
+
+map( transform: T -&amp;gt; U  ) -&amp;gt; ArrayflatMap( transform: T -&amp;gt; Array ) -&amp;gt; Array
+
+这意味着，给定一个变换：T-&amp;gt; U的用户可将T的数组转换为U的数组，只需使用">
+<meta property="og:updated_time" content="2016-03-24T12:39:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="siwft思维 第四部分：map all the things!">
+<meta name="twitter:description" content="原文地址
+Array vs. Optional所以，作为一个提醒，我们在前面的文章中了解到，Array的函数map()和flatmap：
+
+map( transform: T -&amp;gt; U  ) -&amp;gt; ArrayflatMap( transform: T -&amp;gt; Array ) -&amp;gt; Array
+
+这意味着，给定一个变换：T-&amp;gt; U的用户可将T的数组转换为U的数组，只需使用">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> siwft思维 第四部分：map all the things! | f22x </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">f22x</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                siwft思维 第四部分：map all the things!
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-10-16T17:06:12+08:00" content="2015-10-16">
+              2015-10-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/swift/" itemprop="url" rel="index">
+                    <span itemprop="name">swift</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">原文地址</a></p>
+<h3 id="Array-vs-Optional"><a href="#Array-vs-Optional" class="headerlink" title="Array vs. Optional"></a>Array vs. Optional</h3><p>所以，作为一个提醒，我们在前面的文章中了解到，Array<t>的函数map()和flatmap：</t></p>
+<!--    Method on Array<T>-->
+<blockquote><p>map( transform: T -&gt; U  ) -&gt; Array<u><br>flatMap( transform: T -&gt; Array<u> ) -&gt; Array<u></u></u></u></p>
+</blockquote>
+<p>这意味着，给定一个变换：T-&gt; U的用户可将T的数组转换为U的数组，只需使用（变换：T-&gt; U）在你的Array<t>中，它会返回一个数组Array<u></u></t></p>
+<p>好了，这并不奇怪，map()和flatmap的返回值(Optional<t>)是如此的相似:</t></p>
+<pre><code>map( transform: T -&gt; U  ) -&gt; Optional&lt;U&gt;
+flatMap( transform: T -&gt; Optional&lt;U&gt; ) -&gt; Optional&lt;U&gt;
+</code></pre><h3 id="map-on-Optionals"><a href="#map-on-Optionals" class="headerlink" title="map() on Optionals"></a>map() on Optionals</h3><p>那么，map方式是如何返回Optional<t>类型的（T?)?</t></p>
+<p>嗯，这很简单 ：与Array<t>同样的方法，它内部是Optional<t>的，使用transform:T-&gt;U来进行转换，并且把结果包装起来形成新的Optional<u></u></t></t></p>
+<p>你想想看，这非常像Array<t>.map所做的：它可以转换每个内在值（resp.Optional<t>）并且返回一个新的Array(U)（resp.Optional<u>）包含着转换过的新值。</u></t></t></p>
+<h3 id="回到我们的例子"><a href="#回到我们的例子" class="headerlink" title="回到我们的例子"></a>回到我们的例子</h3><p>那么，怎样才能应用这一切在代码中呢?</p>
+<p>在上个版本的代码中，我们有一个itemDesc[“icon”]做了隐式转换（String?）,并且我们想要把它最终转化成为UIImage；但是UIImage(named:)使用String作为参数，而不是String?(Optional)类型，所以我们需要使用一个方法的内部值String，并且仅仅当可选变量不为nil的情况。</p>
+<p>一个解决办法是使用Optional绑定来做到这一点：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let icon: <span class="built_in">UIImage</span>?</span><br><span class="line">    <span class="keyword">if</span> let iconName = itemDesc[<span class="string">"icon"</span>] as? String &#123;</span><br><span class="line">    icon = <span class="built_in">UIImage</span>(named: iconName)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    icon = <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>但是，对于这样一个简单的操作，我们写了太多行。</p>
+<p>在前面的例子中，我们使用了（非常不优雅）替代解决方案，采用了nil，合并运算符??：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">let icon = <span class="built_in">UIImage</span>(named: iconName ?? <span class="string">""</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>上面的代码能够工作，仅因为如果iconName是nil，我们将欺骗的UIImage的初始化和使用UIImage（name:” “），这确实会返回一个nil的图像。但是，这样并不能让人感觉干净整洁，我们有点滥用初始化，使其在这里工作。</p>
+<h3 id="让我们使用map"><a href="#让我们使用map" class="headerlink" title="让我们使用map"></a>让我们使用map</h3><p>那么，为什么不使用map?的确，我们想要解包我们的Optional<string>如果它不为空的话，转换内部值为UIImage并且返回UIIamge，那么究竟怎么使用呢?</string></p>
+<p>我们试一试：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">item.icon = iconName.map &#123; imageName <span class="keyword">in</span> <span class="built_in">UIImage</span>(named: imageName) &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>等等，上面的代码不能编译。你能猜出是为什么吗?</p>
+<h3 id="发生了什么"><a href="#发生了什么" class="headerlink" title="发生了什么?"></a>发生了什么?</h3><p>问题出在UIImage(name:…)方法返回了一个可选类型：如果name没有值，那么它将无法创建UIImage，这样就使得这个初始化是失败的，在这种情况下将返回nil。</p>
+<p>因此，这里的问题是，我们给闭包映射一个String，并返回……一个UIImage?类型 –初始化失败并且返回nil的类型。并且如果你再次检查map内部，他将要形成T（imageName） -&gt; U（UIImage(name: ImageName)）的闭包，并且返回U?。所以在这种情况下，U相当于UIImage?并且如果整个map表达式返回U?那么最终将返回的将是UIImage??，是的，两个Optional，oh boy!</p>
+<h3 id="flatMap-来救援"><a href="#flatMap-来救援" class="headerlink" title="flatMap()来救援"></a>flatMap()来救援</h3><p>flatMap与map相似，但是它使用T-&gt;U?转换（而不是T-&gt;U），并且它是”flattens”的它的结果仅有一级的optional。这正是我们期望的！</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">item.icon = iconName.flatMap &#123; imageName <span class="keyword">in</span> <span class="built_in">UIImage</span>(named: imageName) &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>因此，这里就是flatMap实际所做的：</p>
+<p>1、如果iconName为nil，flatMap将直接返回nil（但是类型为UIImage?）<br>2、如果iconName不为nil，flatMap适用于转换内部值，因此试图使用String创建UIImage，并且返回结果–如果已经是UIImage?因此其可以是nil，如果UIImage初始化失败的话。</p>
+<p>总之，item.icon只会有一个非空值，如果 itemDesc[“icon”]as? String 为非空并且UIImage(named：imageName)初始化成功。</p>
+<p>这样感觉好多了，比欺骗初始化的??更加符合习惯。</p>
+<h3 id="使用-init闭包"><a href="#使用-init闭包" class="headerlink" title="使用 init闭包"></a>使用 init闭包</h3><p>说远一点，上面也可以使用一个更紧凑的编码方式，如Xcode中7现在通过类型的.init属性公开这些类的构造函数。</p>
+<p>这意味着，UIImage.init实际上已经是一个函数，它接受一个字符串，返回一个UIImage?因此，我们可以直接使用它作为参数传递给我们的flatMap，没必要把它放在闭包里！</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">item.icon = iconName.flatMap(<span class="built_in">UIImage</span>.init)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>好吧，我觉得这是难以阅读和个人更喜欢使用一个明确的闭包在这里，为了使代码更清晰，更加明确。但是，这是个人喜好的问题而已，这是一件好事，你知道这是可能的！</p>
+<h3 id="我们最终的swift代码"><a href="#我们最终的swift代码" class="headerlink" title="我们最终的swift代码"></a>我们最终的swift代码</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> ListItem &#123;</span><br><span class="line">var icon: <span class="built_in">UIImage</span>?</span><br><span class="line">var title: String</span><br><span class="line">var url: <span class="built_in">NSURL</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> func listItemsFromJSONData(jsonData: <span class="built_in">NSData</span>?) -&gt; [ListItem] &#123;</span><br><span class="line">    guard let jsonData = jsonData,</span><br><span class="line">    let json = try? <span class="built_in">NSJSONSerialization</span>.JSONObjectWithData(jsonData, options: []),</span><br><span class="line">    let jsonItems = json as? Array&lt;<span class="built_in">NSDictionary</span>&gt; <span class="keyword">else</span> &#123; <span class="keyword">return</span> [] &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> jsonItems.flatMap &#123; (itemDesc: <span class="built_in">NSDictionary</span>) -&gt; ListItem? <span class="keyword">in</span></span><br><span class="line">        guard let title = itemDesc[<span class="string">"title"</span>] as? String,</span><br><span class="line">        let urlString = itemDesc[<span class="string">"url"</span>] as? String,</span><br><span class="line">        let url = <span class="built_in">NSURL</span>(string: urlString)</span><br><span class="line">        <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</span><br><span class="line">        let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">        let icon = iconName.flatMap &#123; <span class="built_in">UIImage</span>(named: $<span class="number">0</span>) &#125;</span><br><span class="line">        <span class="keyword">return</span> ListItem(icon: icon, title: title, url: url)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="回头看看我们的ObjC代码"><a href="#回头看看我们的ObjC代码" class="headerlink" title="回头看看我们的ObjC代码"></a>回头看看我们的ObjC代码</h3><p>花一点时间来与ObjC代码比较，我们的WIFT代码。我们从那里适应了相当多的东西！</p>
+<p>如果你仔细观察ObjC与swift的代码，你就会意识到，swift的代码行数不会明显地缩短，但它的方式更安全。</p>
+<p>特别是，关于swift，我们学会了，guard?，try?和as?它迫使我们必须检查一切不确定的类型，那些ObjC代码不会操心的和会导致崩溃的潜在问题。因此，也许它们的代码一样大小，但ObjC代码的更加危险！</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>有了这个系列文章，我希望你明白，你不应该尝试把ObjC代码直接转化为swift。相反，尝试重新思考你的代码，重构它。通常更好的方式是从一个clean的状态开始重写你的代码时考虑到swift的特性，而不是试图直接翻译ObjC代码。</p>
+<p>我不是说这很容易。改变你的思维方式，当你已经习惯了ObjC，并使用其模式和方法来编写代码还可能需要一些时间。但swift肯定更好。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/12/siwft思维第三部分_struct/" rel="next" title="siwft思维 第三部分：struct">
+                <i class="fa fa-chevron-left"></i> siwft思维 第三部分：struct
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/26/BFTask/" rel="prev" title="Facebook的BFTask简介">
+                Facebook的BFTask简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="f22x" />
+          <p class="site-author-name" itemprop="name">f22x</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/f22x" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/f22xC" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-vs-Optional"><span class="nav-number">1.</span> <span class="nav-text">Array vs. Optional</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#map-on-Optionals"><span class="nav-number">2.</span> <span class="nav-text">map() on Optionals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回到我们的例子"><span class="nav-number">3.</span> <span class="nav-text">回到我们的例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让我们使用map"><span class="nav-number">4.</span> <span class="nav-text">让我们使用map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发生了什么"><span class="nav-number">5.</span> <span class="nav-text">发生了什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flatMap-来救援"><span class="nav-number">6.</span> <span class="nav-text">flatMap()来救援</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-init闭包"><span class="nav-number">7.</span> <span class="nav-text">使用 init闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我们最终的swift代码"><span class="nav-number">8.</span> <span class="nav-text">我们最终的swift代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回头看看我们的ObjC代码"><span class="nav-number">9.</span> <span class="nav-text">回头看看我们的ObjC代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结论"><span class="nav-number">10.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">f22x</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

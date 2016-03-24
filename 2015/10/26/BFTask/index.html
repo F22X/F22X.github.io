@@ -57,15 +57,16 @@
 
 
 
-<meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="f22x">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="要创建一个真正具有响应式的iOS应用程序，你必须保持长时间的运行以便操作UI线程，并注意避免任何延迟事件阻塞UI线程。这意味着你将需要在后台执行各种操作。为方便起见，我们增加了一个类BFTask。一个可以表示异步操作结果的任务（task）。通常情况下，一个BFTask从异步函数返回，并给出一个继续处理任务结果的能力。当一个任务从一个函数返回它已经开始做的工作。一个任务是不依赖于特定的线程模型：它代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Facebook的BFTask简介">
+<meta property="og:url" content="http://yoursite.com/2015/10/26/BFTask/index.html">
 <meta property="og:site_name" content="f22x">
-<meta property="og:description">
+<meta property="og:description" content="要创建一个真正具有响应式的iOS应用程序，你必须保持长时间的运行以便操作UI线程，并注意避免任何延迟事件阻塞UI线程。这意味着你将需要在后台执行各种操作。为方便起见，我们增加了一个类BFTask。一个可以表示异步操作结果的任务（task）。通常情况下，一个BFTask从异步函数返回，并给出一个继续处理任务结果的能力。当一个任务从一个函数返回它已经开始做的工作。一个任务是不依赖于特定的线程模型：它代">
+<meta property="og:updated_time" content="2016-03-24T13:26:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="f22x">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Facebook的BFTask简介">
+<meta name="twitter:description" content="要创建一个真正具有响应式的iOS应用程序，你必须保持长时间的运行以便操作UI线程，并注意避免任何延迟事件阻塞UI线程。这意味着你将需要在后台执行各种操作。为方便起见，我们增加了一个类BFTask。一个可以表示异步操作结果的任务（task）。通常情况下，一个BFTask从异步函数返回，并给出一个继续处理任务结果的能力。当一个任务从一个函数返回它已经开始做的工作。一个任务是不依赖于特定的线程模型：它代">
 
 
 
@@ -83,7 +84,7 @@
   };
 </script>
 
-  <title> f22x </title>
+  <title> Facebook的BFTask简介 | f22x </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -104,9 +105,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -173,9 +172,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -195,120 +194,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/01/04/UITextFieldResponder/" itemprop="url">
-                  textField响应
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-01-04T16:53:17+08:00" content="2016-01-04">
-              2016-01-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/objective-c/" itemprop="url" rel="index">
-                    <span itemprop="name">objective-c</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><code>UITextField</code>是我们常用的控件，它是如何响应用户事件的呢，看了一下它的视图层次如下：</p>
-<p><img src="https://raw.githubusercontent.com/f22x/f22x.github.io/master/image/UITextFieldResponder.png" alt="desk"><br><!--<center>![UITextFieldResponder](/images/UITextFieldResponder.png)</center>--></p>
-<p>这是一个简单的textField，当点击它的时候，生成了<code>UIFieldEditor</code>(如果没有设置clearButton的话它的frame等于textField)，<br><code>UIFieldEditor</code>上有一个<code>_UIFieldEditorContentView</code>, <code>_UIFieldEditorContentView</code>负责展示文字并包含一个<code>UITextSelectionView</code>（光标）。这些由textField生成的编辑系列视图以textField为父视图并总是处于父视图的最顶层，如果直接在textField上添加控件的话，这些控件将不能够被系统响应。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/10/26/BFTask/" itemprop="url">
-                  Facebook的BFTask简介
-                </a>
+                Facebook的BFTask简介
               
             
           </h1>
@@ -366,9 +252,7 @@
       
 
       
-        
-          
-            <p>要创建一个真正具有响应式的iOS应用程序，你必须保持长时间的运行以便操作UI线程，并注意避免任何延迟事件阻塞UI线程。这意味着你将需要在后台执行各种操作。为方便起见，我们增加了一个类BFTask。一个可以表示异步操作结果的任务（task）。通常情况下，一个BFTask从异步函数返回，并给出一个继续处理任务结果的能力。当一个任务从一个函数返回它已经开始做的工作。一个任务是不依赖于特定的线程模型：它代表正在做的工作，而不是在那里执行。task比异步编程的其它方法，诸如回调有更多优点。 BFTask是不能代替NSOperation或GCD的。事实上，他们发挥得很好。但是BFTask填补了它们中的一些空白，以及这些技术没有解决​​的一些问题。</p>
+        <p>要创建一个真正具有响应式的iOS应用程序，你必须保持长时间的运行以便操作UI线程，并注意避免任何延迟事件阻塞UI线程。这意味着你将需要在后台执行各种操作。为方便起见，我们增加了一个类BFTask。一个可以表示异步操作结果的任务（task）。通常情况下，一个BFTask从异步函数返回，并给出一个继续处理任务结果的能力。当一个任务从一个函数返回它已经开始做的工作。一个任务是不依赖于特定的线程模型：它代表正在做的工作，而不是在那里执行。task比异步编程的其它方法，诸如回调有更多优点。 BFTask是不能代替NSOperation或GCD的。事实上，他们发挥得很好。但是BFTask填补了它们中的一些空白，以及这些技术没有解决​​的一些问题。</p>
 <p>BFTask负责管理依赖。与使用NSOperation的依赖管理相比，你没有必要开始BFTask之前声明的所有依赖关系。例如，假设你需要保存一组对象，每个人可能或不可能需要保存子对象。在NSOperation，您通常需要提前创建操作为每个子操作节省时间。但是，你总是不知道你何时开始工作，是否它是必要的。这让管理依赖关系的NSOperation非常痛苦。即使在最好的情况下，必须依赖于它们的操作，导致出现了比它执行不同的命令代码之前创建的依赖。使用BFTask，您可以在操作的过程中决定是否将子任务返回，在一个很短的时间内。</p>
 <p>BFTasks释放依赖关系。NSOperation强引用了这些依赖项，所以如果你有队列顺序地执行这些依赖项，你的应用将会产生泄漏，因为每次的操作永远会被retain。BFTasks会释放它们的回调，当这些操作在运行中的时候，所以清理BFTask后，它持有的一切东西都将被清空。这可以减少内存使用，并简化内存管理。</p>
 <p>BFTasks跟踪完成任务的状态：它跟踪是否有返回值，任务被取消，或者如果发生错误。它还具有方便的方法来返回错误信息。在NSOperation里，你自己必须建立所有这些东西。</p>
@@ -401,12 +285,12 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> - (<span class="keyword">void</span>)doSomethingComplicatedAsync:(MYCancellationToken *)cancellationToken &#123;</span><br><span class="line">    [[<span class="keyword">self</span> doSomethingAsync:cancellationToken] continueWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">if</span> (cancellationToken.isCancelled) &#123;</span><br><span class="line">            <span class="keyword">return</span> [BFTask cancelledTask];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Do something that takes a while.</span></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Somewhere else.</span></span><br><span class="line">MYCancellationToken *cancellationToken = [[MYCancellationToken alloc] init];</span><br><span class="line">[obj doSomethingComplicatedAsync:cancellationToken];</span><br><span class="line"></span><br><span class="line"><span class="comment">//When you get bored...</span></span><br><span class="line">[cancellationToken cancel];</span><br><span class="line"></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 <p> 注：取消标记实现应该是线程安全的。我们很可能会…像这样加入一些概念到Bolts在将来的某个时候。</p>
 
-          
-        
       
     </div>
 
     <div>
+      
+        
       
     </div>
 
@@ -414,429 +298,36 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2015/10/16/siwft思维第四部分_mapallthethings/" rel="next" title="siwft思维 第四部分：map all the things!">
+                <i class="fa fa-chevron-left"></i> siwft思维 第四部分：map all the things!
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2015/10/16/siwft思维第四部分_mapallthethings/" itemprop="url">
-                  siwft思维 第四部分：map all the things!
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-10-16T17:06:12+08:00" content="2015-10-16">
-              2015-10-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/swift/" itemprop="url" rel="index">
-                    <span itemprop="name">swift</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
+              <a href="/2016/01/04/UITextFieldResponder/" rel="prev" title="textField响应">
+                textField响应 <i class="fa fa-chevron-right"></i>
+              </a>
             
-          
-
-          
-
-          
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p><a href="http://alisoftware.github.io/swift/2015/10/11/thinking-in-swift-4/" target="_blank" rel="external">原文地址</a></p>
-<h3 id="Array-vs-Optional"><a href="#Array-vs-Optional" class="headerlink" title="Array vs. Optional"></a>Array vs. Optional</h3><p>所以，作为一个提醒，我们在前面的文章中了解到，Array<t>的函数map()和flatmap：</t></p>
-<!--    Method on Array<T>-->
-<blockquote><p>map( transform: T -&gt; U  ) -&gt; Array<u><br>flatMap( transform: T -&gt; Array<u> ) -&gt; Array<u></u></u></u></p>
-</blockquote>
-<p>这意味着，给定一个变换：T-&gt; U的用户可将T的数组转换为U的数组，只需使用（变换：T-&gt; U）在你的Array<t>中，它会返回一个数组Array<u></u></t></p>
-<p>好了，这并不奇怪，map()和flatmap的返回值(Optional<t>)是如此的相似:</t></p>
-<pre><code>map( transform: T -&gt; U  ) -&gt; Optional&lt;U&gt;
-flatMap( transform: T -&gt; Optional&lt;U&gt; ) -&gt; Optional&lt;U&gt;
-</code></pre><h3 id="map-on-Optionals"><a href="#map-on-Optionals" class="headerlink" title="map() on Optionals"></a>map() on Optionals</h3><p>那么，map方式是如何返回Optional<t>类型的（T?)?</t></p>
-<p>嗯，这很简单 ：与Array<t>同样的方法，它内部是Optional<t>的，使用transform:T-&gt;U来进行转换，并且把结果包装起来形成新的Optional<u></u></t></t></p>
-<p>你想想看，这非常像Array<t>.map所做的：它可以转换每个内在值（resp.Optional<t>）并且返回一个新的Array(U)（resp.Optional<u>）包含着转换过的新值。</u></t></t></p>
-<h3 id="回到我们的例子"><a href="#回到我们的例子" class="headerlink" title="回到我们的例子"></a>回到我们的例子</h3><p>那么，怎样才能应用这一切在代码中呢?</p>
-<p>在上个版本的代码中，我们有一个itemDesc[“icon”]做了隐式转换（String?）,并且我们想要把它最终转化成为UIImage；但是UIImage(named:)使用String作为参数，而不是String?(Optional)类型，所以我们需要使用一个方法的内部值String，并且仅仅当可选变量不为nil的情况。</p>
-<p>一个解决办法是使用Optional绑定来做到这一点：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let icon: <span class="built_in">UIImage</span>?</span><br><span class="line">    <span class="keyword">if</span> let iconName = itemDesc[<span class="string">"icon"</span>] as? String &#123;</span><br><span class="line">    icon = <span class="built_in">UIImage</span>(named: iconName)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    icon = <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>但是，对于这样一个简单的操作，我们写了太多行。</p>
-<p>在前面的例子中，我们使用了（非常不优雅）替代解决方案，采用了nil，合并运算符??：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">let icon = <span class="built_in">UIImage</span>(named: iconName ?? <span class="string">""</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>上面的代码能够工作，仅因为如果iconName是nil，我们将欺骗的UIImage的初始化和使用UIImage（name:” “），这确实会返回一个nil的图像。但是，这样并不能让人感觉干净整洁，我们有点滥用初始化，使其在这里工作。</p>
-<h3 id="让我们使用map"><a href="#让我们使用map" class="headerlink" title="让我们使用map"></a>让我们使用map</h3><p>那么，为什么不使用map?的确，我们想要解包我们的Optional<string>如果它不为空的话，转换内部值为UIImage并且返回UIIamge，那么究竟怎么使用呢?</string></p>
-<p>我们试一试：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">item.icon = iconName.map &#123; imageName <span class="keyword">in</span> <span class="built_in">UIImage</span>(named: imageName) &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>等等，上面的代码不能编译。你能猜出是为什么吗?</p>
-<h3 id="发生了什么"><a href="#发生了什么" class="headerlink" title="发生了什么?"></a>发生了什么?</h3><p>问题出在UIImage(name:…)方法返回了一个可选类型：如果name没有值，那么它将无法创建UIImage，这样就使得这个初始化是失败的，在这种情况下将返回nil。</p>
-<p>因此，这里的问题是，我们给闭包映射一个String，并返回……一个UIImage?类型 –初始化失败并且返回nil的类型。并且如果你再次检查map内部，他将要形成T（imageName） -&gt; U（UIImage(name: ImageName)）的闭包，并且返回U?。所以在这种情况下，U相当于UIImage?并且如果整个map表达式返回U?那么最终将返回的将是UIImage??，是的，两个Optional，oh boy!</p>
-<h3 id="flatMap-来救援"><a href="#flatMap-来救援" class="headerlink" title="flatMap()来救援"></a>flatMap()来救援</h3><p>flatMap与map相似，但是它使用T-&gt;U?转换（而不是T-&gt;U），并且它是”flattens”的它的结果仅有一级的optional。这正是我们期望的！</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">item.icon = iconName.flatMap &#123; imageName <span class="keyword">in</span> <span class="built_in">UIImage</span>(named: imageName) &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>因此，这里就是flatMap实际所做的：</p>
-<p>1、如果iconName为nil，flatMap将直接返回nil（但是类型为UIImage?）<br>2、如果iconName不为nil，flatMap适用于转换内部值，因此试图使用String创建UIImage，并且返回结果–如果已经是UIImage?因此其可以是nil，如果UIImage初始化失败的话。</p>
-<p>总之，item.icon只会有一个非空值，如果 itemDesc[“icon”]as? String 为非空并且UIImage(named：imageName)初始化成功。</p>
-<p>这样感觉好多了，比欺骗初始化的??更加符合习惯。</p>
-<h3 id="使用-init闭包"><a href="#使用-init闭包" class="headerlink" title="使用 init闭包"></a>使用 init闭包</h3><p>说远一点，上面也可以使用一个更紧凑的编码方式，如Xcode中7现在通过类型的.init属性公开这些类的构造函数。</p>
-<p>这意味着，UIImage.init实际上已经是一个函数，它接受一个字符串，返回一个UIImage?因此，我们可以直接使用它作为参数传递给我们的flatMap，没必要把它放在闭包里！</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">item.icon = iconName.flatMap(<span class="built_in">UIImage</span>.init)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>好吧，我觉得这是难以阅读和个人更喜欢使用一个明确的闭包在这里，为了使代码更清晰，更加明确。但是，这是个人喜好的问题而已，这是一件好事，你知道这是可能的！</p>
-<h3 id="我们最终的swift代码"><a href="#我们最终的swift代码" class="headerlink" title="我们最终的swift代码"></a>我们最终的swift代码</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> ListItem &#123;</span><br><span class="line">var icon: <span class="built_in">UIImage</span>?</span><br><span class="line">var title: String</span><br><span class="line">var url: <span class="built_in">NSURL</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> func listItemsFromJSONData(jsonData: <span class="built_in">NSData</span>?) -&gt; [ListItem] &#123;</span><br><span class="line">    guard let jsonData = jsonData,</span><br><span class="line">    let json = try? <span class="built_in">NSJSONSerialization</span>.JSONObjectWithData(jsonData, options: []),</span><br><span class="line">    let jsonItems = json as? Array&lt;<span class="built_in">NSDictionary</span>&gt; <span class="keyword">else</span> &#123; <span class="keyword">return</span> [] &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> jsonItems.flatMap &#123; (itemDesc: <span class="built_in">NSDictionary</span>) -&gt; ListItem? <span class="keyword">in</span></span><br><span class="line">        guard let title = itemDesc[<span class="string">"title"</span>] as? String,</span><br><span class="line">        let urlString = itemDesc[<span class="string">"url"</span>] as? String,</span><br><span class="line">        let url = <span class="built_in">NSURL</span>(string: urlString)</span><br><span class="line">        <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</span><br><span class="line">        let iconName = itemDesc[<span class="string">"icon"</span>] as? String</span><br><span class="line">        let icon = iconName.flatMap &#123; <span class="built_in">UIImage</span>(named: $<span class="number">0</span>) &#125;</span><br><span class="line">        <span class="keyword">return</span> ListItem(icon: icon, title: title, url: url)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="回头看看我们的ObjC代码"><a href="#回头看看我们的ObjC代码" class="headerlink" title="回头看看我们的ObjC代码"></a>回头看看我们的ObjC代码</h3><p>花一点时间来与ObjC代码比较，我们的WIFT代码。我们从那里适应了相当多的东西！</p>
-<p>如果你仔细观察ObjC与swift的代码，你就会意识到，swift的代码行数不会明显地缩短，但它的方式更安全。</p>
-<p>特别是，关于swift，我们学会了，guard?，try?和as?它迫使我们必须检查一切不确定的类型，那些ObjC代码不会操心的和会导致崩溃的潜在问题。因此，也许它们的代码一样大小，但ObjC代码的更加危险！</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>有了这个系列文章，我希望你明白，你不应该尝试把ObjC代码直接转化为swift。相反，尝试重新思考你的代码，重构它。通常更好的方式是从一个clean的状态开始重写你的代码时考虑到swift的特性，而不是试图直接翻译ObjC代码。</p>
-<p>我不是说这很容易。改变你的思维方式，当你已经习惯了ObjC，并使用其模式和方法来编写代码还可能需要一些时间。但swift肯定更好。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/10/12/siwft思维第三部分_struct/" itemprop="url">
-                  siwft思维 第三部分：struct
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-10-12T17:30:19+08:00" content="2015-10-12">
-              2015-10-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/swift/" itemprop="url" rel="index">
-                    <span itemprop="name">swift</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="这次让我们使用struct来简化我们的代码"><a href="#这次让我们使用struct来简化我们的代码" class="headerlink" title="这次让我们使用struct来简化我们的代码"></a>这次让我们使用struct来简化我们的代码</h3><p>在本系列的上一篇文章中，我们学习了如何使用array的map和flatMap方法，从而避免出现有状态的中间变量，并且使用一些函数式编程。<br><a href="http://alisoftware.github.io/swift/2015/09/20/thinking-in-swift-2/" target="_blank" rel="external">翻译自</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class ListItem &#123;</span><br><span class="line">    var icon: UIImage?</span><br><span class="line">    var title: String = &quot;&quot;</span><br><span class="line">    var url: NSURL!</span><br><span class="line">    </span><br><span class="line">    static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">        guard let nonNilJsonData = jsonData,</span><br><span class="line">        let json = try? NSJSONSerialization.JSONObjectWithData(nonNilJsonData, options: []),</span><br><span class="line">        let jsonItems = json as? Array&lt;NSDictionary&gt;</span><br><span class="line">        else &#123;</span><br><span class="line">            return []</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return jsonItems.flatMap &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">            guard let title = itemDesc[&quot;title&quot;] as? String,</span><br><span class="line">            let urlString = itemDesc[&quot;url&quot;] as? String,</span><br><span class="line">            let url = NSURL(string: urlString)</span><br><span class="line">            else &#123; return nil &#125;</span><br><span class="line">            let li = ListItem()</span><br><span class="line">            if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">                li.icon = UIImage(named: icon)</span><br><span class="line">            &#125;</span><br><span class="line">            li.title = title</span><br><span class="line">            li.url = url</span><br><span class="line">            return li</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>今天，我们要做一个非常简单的变化，它会使我们的代码更轻量，看起来更像swifteer。</p>
-<h3 id="struct-vs-class"><a href="#struct-vs-class" class="headerlink" title="struct vs class"></a>struct vs class</h3><p>我们刚刚使用swift的时候通常使用class，这不难理解，因为在oc中class无处不在。使用class并没有什么错误，你当然可以在swift中继续使用它们。但是在swift中，struct拥有更强大的功能相对于c语言来说。它们不再局<br>限于一些拥有值的字段。</p>
-<p>相对的，swift的struct拥有class相同的能力，除了继承，它还拥有值类型（所以当你使用其他的变量时，都会复制它们，就像Int）而class是引用类型，通过引用用而不是复制，在objective-c中（它们遍布了每个地方）下一个是转贴，请参见watch this excellent talk from Andy Matuschak on that subject关于两者的解释。</p>
-<h3 id="转换我们的class为struct"><a href="#转换我们的class为struct" class="headerlink" title="转换我们的class为struct"></a>转换我们的class为struct</h3><p>在这种情况下，struct似乎更适合，因为它承载值，并且不会被某些意外所改变（复制胜于引用）。假如我们要使用它们作为数据源例如一个菜单，并且它们并非旨在一定要创建中间量，所以这种情况是有意义的。</p>
-<p>此外，struct的优势在于他们有一个隐含的构造函数在默认的情况下，如果你不定义：我们可以使用它的默认构造函数列表项ListItem（icon:…,titile:…,url:…）。</p>
-<p>最后但是并非最不重要的，因为我们现在还不能创建一个伪造的列表项，因为我们消除了上面的数据损坏的问题，我们可以消除tittle的默认值，但更重要的是，我们可以save that last pony ??通过将NSURL！转换为NSURL。</p>
-<p>所以接下来的代码像这样</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">struct ListItem &#123;</span><br><span class="line">var icon: UIImage?</span><br><span class="line">var title: String</span><br><span class="line">var url: NSURL</span><br><span class="line"></span><br><span class="line">static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">    guard let nonNilJsonData = jsonData,</span><br><span class="line">    let json = try? NSJSONSerialization.JSONObjectWithData(nonNilJsonData, options: []),</span><br><span class="line">    let jsonItems = json as? Array&lt;NSDictionary&gt; else &#123; return [] &#125;</span><br><span class="line">    </span><br><span class="line">    return jsonItems.flatMap &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">        guard let title = itemDesc[&quot;title&quot;] as? String,</span><br><span class="line">        let urlString = itemDesc[&quot;url&quot;] as? String,</span><br><span class="line">        let url = NSURL(string: urlString)</span><br><span class="line">        else &#123; return nil &#125;</span><br><span class="line">        let iconName = itemDesc[&quot;icon&quot;] as? String</span><br><span class="line">        let icon = UIImage(named: iconName ?? &quot;&quot;)</span><br><span class="line">        return ListItem(icon: icon, title: title, url: url)</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>现在，我们使用一步来创建ListItem，因为struct为一个默认的init（）内包含所有的参数，如果你不提供任何自己的初始化参数。我们可用class做相同的事，但是一旦有class我们就不得不初始化自己。</p>
-<h3 id="合并运算符"><a href="#合并运算符" class="headerlink" title="合并运算符"></a>合并运算符</h3><p>在上面的例子中，我还使用了新的技巧，使用？操作符得到一个默认情况下iconName为nil的情况。</p>
-<p>这里的？？操作符类似于Objective-c的opt？：val号运算符，这意味着，如果opt是类型T的？VAL必须是T型的。</p>
-<p>所以在这里iconName？？””让我们用一个nil的情况下的iconName的映射，我们知道会导致nil的UIImage（icon=nil）的这种情况。</p>
-<p>⚠️注意⚠️：这不是处理一个空的iconName或者有一个nil的UIImage最好的和干净的方式。事实上，它甚至显得有点丑陋，以及使用一个假的“”符号创建一个空的图像。但是，这是一个机会，向您展示？？的用法……哎，我们也保留了一些不错的东西，作为本作的下一部分。</p>
-<p>有问题请<a href="https://github.com/f22x/f22x.github.io/issues" target="_blank" rel="external">回复</a>至</p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/28/siwft思维第二部分_array的map方法/" itemprop="url">
-                  swift思维 第二部分：array的map方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-09-28T12:39:04+08:00" content="2015-09-28">
-              2015-09-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/swift/" itemprop="url" rel="index">
-                    <span itemprop="name">swift</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://alisoftware.github.io/swift/2015/09/20/thinking-in-swift-2/" target="_blank" rel="external">翻译自</a> 今天这篇文章主要讲解map和flatmap在Arrays中的应用</p>
-<h3 id="以前的代码"><a href="#以前的代码" class="headerlink" title="以前的代码"></a>以前的代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class ListItem &#123;</span><br><span class="line">    var icon: UIImage?</span><br><span class="line">    var title: String = &quot;&quot;</span><br><span class="line">    var url: NSURL!</span><br><span class="line">                 </span><br><span class="line">    static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">        guard let nonNilJsonData = jsonData,</span><br><span class="line">        let class ListItem &#123;</span><br><span class="line">            var icon: UIImage?</span><br><span class="line">            var title: String = &quot;&quot;</span><br><span class="line">            var url: NSURL!</span><br><span class="line">            </span><br><span class="line">            static func listItemsFromJSONData(jsonData: NSData?) -&gt; [ListItem] &#123;</span><br><span class="line">                guard let nonNilJsonData = jsonData,</span><br><span class="line">                let json = try? NSJSONSerialization.JSONObjectWithData(nonNilJsonData, options: []),</span><br><span class="line">                let jsonItems = json as? Array&lt;NSDictionary&gt;</span><br><span class="line">                else &#123;</span><br><span class="line">                    // If we failed to unserialize the JSON or that JSON wasn&apos;t an NSArray,</span><br><span class="line">                    // then bail early with an empty array</span><br><span class="line">                    return []</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                var items = [ListItem]()</span><br><span class="line">                for itemDesc in jsonItems &#123;</span><br><span class="line">                    let item = ListItem()</span><br><span class="line">                    if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">                        item.icon = UIImage(named: icon)</span><br><span class="line">                    &#125;</span><br><span class="line">                    if let title = itemDesc[&quot;title&quot;] as? String &#123;</span><br><span class="line">                        item.title = title</span><br><span class="line">                    &#125;</span><br><span class="line">                    if let urlString = itemDesc[&quot;url&quot;] as? String, let url = NSURL(string: urlString) &#123;</span><br><span class="line">                        item.url = url</span><br><span class="line">                    &#125;</span><br><span class="line">                    items.append(item)</span><br><span class="line">                &#125;</span><br><span class="line">                return items</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="map-介绍"><a href="#map-介绍" class="headerlink" title="map()介绍"></a>map()介绍</h3><p>map()是Array中的一个方法，它包含一个函数来作为参数，这就解释了怎么样把数组的每个元素转换成新的。这个方法仅通过解释如何转换X-&gt;Y来允许转换一个数组[x]为[Y]，而不需要创建一个临时的可变数组。（关于这一段，需要了解函数式编程的相关内容，简单来说，函数作为处理”值”而存在，我们输入一个值，会得到另一个值。而数据类型作为对值的封装，不仅包含值，还包含相关的属性和方法。这里把array这个数据类型而不是值通过map()函数进行处理，我们通过这个过程，拿到中间状态NSDictionary来自己”组装”函数，最后，函数将帮我们返回另一种数据类型ListItem。详情见<a href="http://www.ruanyifeng.com/blog/2015/07/monad.html" target="_blank" rel="external">这篇博文</a>以及<a href="http://jiyinyiyong.github.io/monads-in-pictures/" target="_blank" rel="external">原文</a>）</p>
-<p>因此，在我们的例子中，我们利用这个特性代替for循环，我们可以使用jsonItems（包含几组NSDictionary的JSON数组）的map方法–将每个字典替换成ListItem实例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return jsonItems.map &#123;(itemDesc: NSDictionary) -&gt; ListItem in</span><br><span class="line">        let item = ListItem()</span><br><span class="line">        if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">            item.icon = UIImage(named: icon)</span><br><span class="line">        &#125;</span><br><span class="line">        if let title = itemDesc[&quot;title&quot;] as? String &#123;</span><br><span class="line">            item.title = title</span><br><span class="line">        &#125;</span><br><span class="line">        if let urlString = itemDesc[&quot;url&quot;] as? String, let url = NSURL(string: urlString) &#123;</span><br><span class="line">            item.url = url</span><br><span class="line">        &#125;</span><br><span class="line">        return item</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>这可能看起来像一个简单的变化，但它使我们能够专注于“如何将一个NSDictionary转化成ListItem”的问题 - 这是我们的问题的核心，并且 - 更重要的是避免了需要建立一个中间可变数组（像我们在ObjC做的那样）。如果可能的话，我们要始终避免可变（mutable）状态。 </p>
-<h3 id="数据损坏"><a href="#数据损坏" class="headerlink" title="数据损坏"></a>数据损坏</h3><p>另一个需要解决的问题是，目前我们所使用的代码仍然会创建一个ListItem（并将它包含在最后的数组中）即使我们输入了不正确的数据。因此，如果其中的一些NSDictionary是无效的，我们的数组最终还会包含一些空的ListItem()对象，实际上它们在真正的意义上是不存在的。 </p>
-<p>更重要的是，我们仍然 killing some ponies 🐴 因为我们还在使用NSURL!并且我们的代码还是允许我们创建一个没有NSURL的ListItem（item.url不会受到影响，如果我们没有一个有效的“URL”键），如果我们试图访问这些无效的NSURL! 我们的代码将崩溃。</p>
-<p>为了解决这个问题，我们可以返回一个nil的ListItem，如果输入的参数是无效的。这比一个会引起错误的或者空的ListItem更合适。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return jsonItems.map &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">        guard …/* condition for valid data */… else &#123; return nil &#125;</span><br><span class="line">        let realValidItem = ListItem()</span><br><span class="line">… /* fill the ListItem with the values */</span><br><span class="line">    return realValidItem</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>但是，如果我们要使用新的NSDictionary - &gt;ListItem？与jsonItems.map变换，它会产生一个[ListItem？]，其中可能包含包含nil，我们仍然输入了无效的NSDictionary项。虽然这样做比以前好，但仍然不是非常实用的处理方法。</p>
-<h3 id="使用flatMap"><a href="#使用flatMap" class="headerlink" title="使用flatMap()"></a>使用flatMap()</h3><p>该flatMap（）派上用场了。</p>
-<p>flatMap（）类似map()，但它采用的是T-&gt; U?转换，而不是T-&gt; U，如果该转换的返回值是nil，那么不加此项到输出数组。</p>
-<p>语义上，flatMap和map很像，就像map消除nil值的扁平化结果。</p>
-<p>运用这一原理，我们给出了下面的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">return jsonItems.flatMap &#123; (itemDesc: NSDictionary) -&gt; ListItem? in</span><br><span class="line">    guard let title = itemDesc[&quot;title&quot;] as? String,</span><br><span class="line">        let urlString = itemDesc[&quot;url&quot;] as? String,</span><br><span class="line">        let url = NSURL(string: urlString)</span><br><span class="line">    else &#123; return nil &#125;</span><br><span class="line">        let li = ListItem()</span><br><span class="line">    if let icon = itemDesc[&quot;icon&quot;] as? String &#123;</span><br><span class="line">        li.icon = UIImage(named: icon)</span><br><span class="line">    &#125;</span><br><span class="line">        li.title = title</span><br><span class="line">        li.url = url</span><br><span class="line">        return li</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>现在我们只返回一个真正的ListItem如果所有的键是我们所需要的和有效的（包括NSURL，我们保证它不是空的）。否则（使用guard声明），我们将返回nil，告诉flatMap不要添加无效的元素到返回的数组。 </p>
-<p>这是更好的而且更安全的，对吗？我们消除了数据损坏和错误数据带来的风险，以及无效的ListItem元素带来的风险。</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>我们仍然有很多工作要做，但是今天，这将是所有（让我们保留一些东西到本系列的下一篇文章！）</p>
-<p>因此，在这一篇里，我们学会了如何更换一个for循环到map或flatMap，我们要使我们的代码保证一点，避免不一致的输出信号的产生当我们的输入数据是无效的。这是一个相当不错的改进了。</p>
-<p>在下篇文章中，我们将看到如何将ListItem转化为struct，并且探索map和flatMap的其他用途 - 尤其是Optionals。</p>
-<p>在此期间，我们需要时间来探索map()和flatMap()的效率。我知道他们在第一次使用时是可怕的或复杂的，但一旦你掌握它，你将会想在任何地方使用它们！</p>
-<!-- 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html">Deployment</a> –&gt;</p>
--->
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -844,6 +335,10 @@ flatMap( transform: T -&gt; Optional&lt;U&gt; ) -&gt; Optional&lt;U&gt;
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -863,8 +358,17 @@ flatMap( transform: T -&gt; Optional&lt;U&gt; ) -&gt; Optional&lt;U&gt;
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -927,6 +431,23 @@ flatMap( transform: T -&gt; Optional&lt;U&gt; ) -&gt; Optional&lt;U&gt;
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-continueWithBlock-Method"><span class="nav-number">1.</span> <span class="nav-text">The continueWithBlock Method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chaining-Tasks-Together"><span class="nav-number">2.</span> <span class="nav-text">Chaining Tasks Together</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Error-Handling-错误处理"><span class="nav-number">3.</span> <span class="nav-text">Error Handling(错误处理)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Creating-Tasks-创建任务"><span class="nav-number">4.</span> <span class="nav-text">Creating Tasks(创建任务)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tasks-in-Series-系列任务"><span class="nav-number">5.</span> <span class="nav-text">Tasks in Series(系列任务)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tasks-in-Parallel-并行任务"><span class="nav-number">6.</span> <span class="nav-text">Tasks in Parallel(并行任务)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-Executors-任务执行器"><span class="nav-number">7.</span> <span class="nav-text">Task Executors(任务执行器)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task-Cancellation-取消任务"><span class="nav-number">8.</span> <span class="nav-text">Task Cancellation(取消任务)</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
       
 
     </div>
@@ -1011,6 +532,167 @@ flatMap( transform: T -&gt; Optional&lt;U&gt; ) -&gt; Optional&lt;U&gt;
   
 
   
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
 
   
 
